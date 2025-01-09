@@ -1,0 +1,34 @@
+{
+	"manifest_version": 3,
+	"name": "Custom Colors",
+	"version": "1.0",
+	"description": "A chrome plugin to replace certain colors on certain websites",
+	"author": "Koro <matthews.r.mike@gmail.com>",
+	"permissions": [
+		"activeTab",
+		"tabs"
+	],
+	"host_permissions": [
+		"https://itch.io/dashboard/*"
+	],
+	"background": {
+		"service_worker": "background.js"
+	},
+	"content_scripts": [
+		{
+			"matches": [
+				"https://itch.io/dashboard/*"
+			],
+			"js": [
+				"contentScript.js"
+			]
+		}
+	],
+	"action": {
+		"default_icon": {
+			"16": "assets/icon.png",
+			"24": "assets/icon.png",
+			"32": "assets/icon.png"
+		}
+	}
+}
