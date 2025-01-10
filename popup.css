@@ -1,0 +1,40 @@
+.container {
+	width: 280px;
+	color: #ffffff;
+}
+
+.title {
+	font-size: 15px;
+	font-weight: bold;
+	padding: 8px;
+}
+
+.scheme {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-image: repeating-linear-gradient(30deg,
+			var(--color1) 0%,
+			var(--color1) 20%,
+			var(--color2) 20%,
+			var(--color2) 40%,
+			var(--color3) 40%,
+			var(--color3) 60%,
+			var(--color4) 60%,
+			var(--color4) 80%,
+			var(--color5) 80%,
+			var(--color5) 100%);
+	border-radius: 10px;
+}
+
+.selected {
+	border-style: solid;
+	border-color: black;
+	border-width: 3px;
+}
+
+.scheme-name {
+	font-size: 15px;
+	color: black;
+	font-weight: bold;
+}
