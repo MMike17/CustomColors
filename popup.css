@@ -13,7 +13,7 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	background-image: repeating-linear-gradient(30deg,
+	background-image: linear-gradient(30deg,
 			var(--color1) 0%,
 			var(--color1) 20%,
 			var(--color2) 20%,
@@ -24,17 +24,20 @@
 			var(--color4) 80%,
 			var(--color5) 80%,
 			var(--color5) 100%);
+	margin: 5px;
 	border-radius: 10px;
-}
-
-.selected {
 	border-style: solid;
-	border-color: black;
-	border-width: 3px;
+	border-width: 0px;
+	cursor: pointer;
 }
 
 .scheme-name {
 	font-size: 15px;
-	color: black;
 	font-weight: bold;
+	color: black;
+}
+
+.selected {
+	border-width: 3px;
+	color: white;
 }
