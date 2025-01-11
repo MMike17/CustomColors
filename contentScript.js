@@ -1,62 +1,96 @@
+// Invoked when we get on an itch.io/dashboard website
 (() => {
+	// let currentScheme = 0;
+
+	// Invoked when we receive a message
 	chrome.runtime.onMessage.addListener((obj, sender, response) => {
-		const { type } = obj;
+		const { type } = obj.type;
+		console.log("Repaint message received");
 
 		if (type == "Repaint")
-			RepaintAll();
+			Repaint();
 	});
 
-	function RepaintAll() {
-		let allElements = document.getElementsByTagName('*');
+	// save stuff here
+	// chrome.storage.sync.set({
+	// 	[tag]: JSON.stringify(currentScheme)
+	// });
 
-		const dataAtr = "data-game_id";
-		const minS = 0.8;
-		const maxS = 0.3;
-		const minV = 0.4;
-		const maxV = 0.8;
+	function Repaint() {
+		// currentScheme = GetCurrentScheme();
 
-		const gameIds = [];
-		const gameIdsCount = [];
-		const elements = [];
-		let gameColors = [];
-		let maxIdCount = 0;
+		// console.log("Current : " + currentScheme);
 
-		for (let element of allElements) {
-			if (element.hasAttribute(dataAtr)) {
-				const attribute = element.getAttribute(dataAtr);
-				elements.push(element);
+		// ----------- rework line --------------
 
-				if (!gameIds.includes(attribute)) {
-					gameIds.push(attribute);
-					gameIdsCount.push(1);
-				}
-				else {
-					let index = gameIds.indexOf(attribute);
-					gameIdsCount[index] += 1;
-					maxIdCount = Math.max(gameIdsCount[index], maxIdCount);
-				}
-			}
-		}
+		// let allElements = document.getElementsByTagName('*');
 
-		for (let i = 0; i < gameIds.length; i++) {
-			gameColors.push(GetColor(
-				i / gameIds.length,
-				Lerp(minS, maxS, 1 - (gameIdsCount[i] / maxIdCount)),
-				Lerp(minV, maxV, (gameIdsCount[i] / maxIdCount))
-			));
-		}
+		// const dataAtr = "data-game_id";
+		// const minS = 0.8;
+		// const maxS = 0.3;
+		// const minV = 0.4;
+		// const maxV = 0.8;
+
+		// const gameIds = [];
+		// const gameIdsCount = [];
+		// const elements = [];
+		// let gameColors = [];
+		// let maxIdCount = 0;
+
+		// for (let element of allElements) {
+		// 	if (element.hasAttribute(dataAtr)) {
+		// 		const attribute = element.getAttribute(dataAtr);
+		// 		elements.push(element);
+
+		// 		if (!gameIds.includes(attribute)) {
+		// 			gameIds.push(attribute);
+		// 			gameIdsCount.push(1);
+		// 		}
+		// 		else {
+		// 			let index = gameIds.indexOf(attribute);
+		// 			gameIdsCount[index] += 1;
+		// 			maxIdCount = Math.max(gameIdsCount[index], maxIdCount);
+		// 		}
+		// 	}
+		// }
+
+		// for (let i = 0; i < gameIds.length; i++) {
+		// 	gameColors.push(GetColor(
+		// 		i / gameIds.length,
+		// 		Lerp(minS, maxS, 1 - (gameIdsCount[i] / maxIdCount)),
+		// 		Lerp(minV, maxV, (gameIdsCount[i] / maxIdCount))
+		// 	));
+		// }
 
 		// gameColors = gameColors.sort(() => (Math.random() - 0.5) * 2);
 
-		for (let color of gameColors)
-			console.log("%cColor", "color : " + color);
+		// for (let color of gameColors)
+		// 	console.log("%cColor", "color : " + color);
 
-		for (let element of elements) {
-			const id = element.getAttribute(dataAtr);
-			let index = gameIds.indexOf(id);
-			element.setAttribute("fill", gameColors[index]);
-		}
+		// for (let element of elements) {
+		// 	const id = element.getAttribute(dataAtr);
+		// 	let index = gameIds.indexOf(id);
+		// 	element.setAttribute("fill", gameColors[index]);
+		// }
 	};
+
+	function GetCurrentScheme() {
+		let currentScheme = 0;
+		const saveKey = "scheme";
+
+		// TODO : Can't access chrome.storage.sync
+
+		chrome.storage.sync.get(
+			[saveKey], (obj) => {
+				if (obj[saveKey] != null)
+					currentScheme = JSON.parse(obj[saveKey]);
+				else // save if we can't find any
+					chrome.storage.sync.set([saveKey], JSON.stringify({ [saveKey]: currentScheme }));
+			}
+		);
+
+		return currentScheme;
+	}
 
 	function Lerp(min, max, percent) { return min + (max - min) * percent };
 
