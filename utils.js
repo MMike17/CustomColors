@@ -1,10 +1,16 @@
 export const maxSceheme = 4;
 export const saveKey = "scheme";
 
-export async function GetCurrentURL() {
+async function GetCurrentTab(onResult) {
 	let queryOptions = { active: true, currentWindow: true };
 	let [tab] = await chrome.tabs.query(queryOptions);
-	return tab.url;
+	onResult(tab);
+}
+
+export function GetCurrentURL(onResult) {
+	GetCurrentTab((tab) => {
+		onResult(tab.url);
+	});
 }
 
 export function GetCurrentScheme(onResult) {
