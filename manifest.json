@@ -6,7 +6,8 @@
 	"author": "Koro <matthews.r.mike@gmail.com>",
 	"permissions": [
 		"activeTab",
-		"tabs"
+		"tabs",
+		"storage"
 	],
 	"host_permissions": [
 		"https://itch.io/dashboard/*"
@@ -29,6 +30,7 @@
 			"16": "assets/icon.png",
 			"24": "assets/icon.png",
 			"32": "assets/icon.png"
-		}
+		},
+		"default_popup": "popup.html"
 	}
 }
