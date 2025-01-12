@@ -20,8 +20,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 });
 
 function TriggerRepaint() {
-	console.log("Sending message");
-
 	if (currentTab && currentTab.url.includes("itch.io/dashboard"))
 		chrome.tabs.sendMessage(currentTab.id, { type: "Repaint" });
 }
