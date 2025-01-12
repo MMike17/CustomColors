@@ -18,6 +18,7 @@
 	"content_scripts": [
 		{
 			"matches": [
+				"https://itch.io/dashboard",
 				"https://itch.io/dashboard/*"
 			],
 			"js": [
