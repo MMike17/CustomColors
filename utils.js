@@ -1,16 +1,16 @@
 export const maxSceheme = 4;
-export const saveKey = "scheme";
-
-async function GetCurrentTab(onResult) {
-	let queryOptions = { active: true, currentWindow: true };
-	let [tab] = await chrome.tabs.query(queryOptions);
-	onResult(tab);
-}
+const saveKey = "scheme";
 
 export function GetCurrentURL(onResult) {
 	GetCurrentTab((tab) => {
 		onResult(tab.url);
 	});
+}
+
+async function GetCurrentTab(onResult) {
+	let queryOptions = { active: true, currentWindow: true };
+	let [tab] = await chrome.tabs.query(queryOptions);
+	onResult(tab);
 }
 
 export function GetCurrentScheme(onResult) {
@@ -50,13 +50,13 @@ export function GetScemeName(scheme) {
 export function GetScemeColors(scheme, count) {
 	switch (scheme) {
 		case 0:
-			return GetLerps("#b03535", "#f4c03c", count);
+			return GetLerps("#842222", "#eaca4b", count);
 		case 1:
-			return GetLerps("#4a50a4", "#4ecbd6", count);
+			return GetLerps("#3c2d68", "#64d8e2", count);
 		case 2:
-			return GetLerps("#3e8260", "#8ed35d", count);
+			return GetLerps("#305f4a", "#acdb65", count);
 		case 3:
-			return GetLerps("#724e9c", "#aa5a8e", count);
+			return GetLerps("#404572", "#c85a7d", count);
 	}
 }
 
