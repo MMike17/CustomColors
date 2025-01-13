@@ -13,7 +13,7 @@ function DrawPopup() {
 		}
 
 		GetCurrentScheme((currentScheme) => {
-			let display = "<div class='title'>Color schemes</div>";
+			let display = "<div class='title'>Color schemes</div><div class=\"schemes-holder\">";
 
 			for (let i = 0; i < maxSceheme; i++) {
 				const name = GetScemeName(i);
@@ -21,7 +21,7 @@ function DrawPopup() {
 				display += GetSchemeDisplay(name, colors, i == currentScheme);
 			}
 
-			DisplayInPopup(display);
+			DisplayInPopup(display + "</div>");
 
 			// register click events
 			const buttons = document.getElementsByClassName("scheme");
