@@ -1,120 +1,130 @@
 // Invoked when we get on an itch.io/dashboard website
 (() => {
-	// let currentScheme = 0;
+	const saveKey = "scheme";
+	const dataAtr = "data-game_id";
 
 	// Invoked when we receive a message
-	chrome.runtime.onMessage.addListener((obj, sender, response) => {
-		const { type } = obj.type;
-		console.log("Repaint message received");
-
-		if (type == "Repaint")
+	chrome.runtime.onMessage.addListener((request, sender, response) => {
+		if (request.type == "Repaint")
 			Repaint();
 	});
 
-	// save stuff here
-	// chrome.storage.sync.set({
-	// 	[tag]: JSON.stringify(currentScheme)
-	// });
-
 	function Repaint() {
-		// currentScheme = GetCurrentScheme();
+		GetCurrentScheme((schemeIndex) => {
+			const { elements, gamesData } = GetPageElements();
+			const colors = GetScemeColors(schemeIndex, gamesData.length);
 
-		// console.log("Current : " + currentScheme);
+			const sortedGamesData = gamesData.sort((a, b) => a.count - b.count);
 
-		// ----------- rework line --------------
+			console.log(sortedGamesData);
 
-		// let allElements = document.getElementsByTagName('*');
-
-		// const dataAtr = "data-game_id";
-		// const minS = 0.8;
-		// const maxS = 0.3;
-		// const minV = 0.4;
-		// const maxV = 0.8;
-
-		// const gameIds = [];
-		// const gameIdsCount = [];
-		// const elements = [];
-		// let gameColors = [];
-		// let maxIdCount = 0;
-
-		// for (let element of allElements) {
-		// 	if (element.hasAttribute(dataAtr)) {
-		// 		const attribute = element.getAttribute(dataAtr);
-		// 		elements.push(element);
-
-		// 		if (!gameIds.includes(attribute)) {
-		// 			gameIds.push(attribute);
-		// 			gameIdsCount.push(1);
-		// 		}
-		// 		else {
-		// 			let index = gameIds.indexOf(attribute);
-		// 			gameIdsCount[index] += 1;
-		// 			maxIdCount = Math.max(gameIdsCount[index], maxIdCount);
-		// 		}
-		// 	}
-		// }
-
-		// for (let i = 0; i < gameIds.length; i++) {
-		// 	gameColors.push(GetColor(
-		// 		i / gameIds.length,
-		// 		Lerp(minS, maxS, 1 - (gameIdsCount[i] / maxIdCount)),
-		// 		Lerp(minV, maxV, (gameIdsCount[i] / maxIdCount))
-		// 	));
-		// }
-
-		// gameColors = gameColors.sort(() => (Math.random() - 0.5) * 2);
-
-		// for (let color of gameColors)
-		// 	console.log("%cColor", "color : " + color);
-
-		// for (let element of elements) {
-		// 	const id = element.getAttribute(dataAtr);
-		// 	let index = gameIds.indexOf(id);
-		// 	element.setAttribute("fill", gameColors[index]);
-		// }
+			for (let element of elements) {
+				const id = element.getAttribute(dataAtr);
+				const data = sortedGamesData.find(item => item.id == id);
+				const index = sortedGamesData.indexOf(data);
+				element.setAttribute("fill", colors[(sortedGamesData.length - 1) - index]);
+			}
+		});
 	};
 
-	function GetCurrentScheme() {
-		let currentScheme = 0;
-		const saveKey = "scheme";
-
-		// TODO : Can't access chrome.storage.sync
-
+	function GetCurrentScheme(onResult) {
 		chrome.storage.sync.get(
 			[saveKey], (obj) => {
+				let currentScheme = 0;
+
 				if (obj[saveKey] != null)
 					currentScheme = JSON.parse(obj[saveKey]);
 				else // save if we can't find any
-					chrome.storage.sync.set([saveKey], JSON.stringify({ [saveKey]: currentScheme }));
+					SaveScheme(0);
+
+				onResult(currentScheme)
 			}
 		);
-
-		return currentScheme;
 	}
 
-	function Lerp(min, max, percent) { return min + (max - min) * percent };
+	function GetScemeColors(scheme, count) {
+		switch (scheme) {
+			case 0:
+				return GetLerps("#842222", "#eaca4b", count);
+			case 1:
+				return GetLerps("#3c2d68", "#64d8e2", count);
+			case 2:
+				return GetLerps("#305f4a", "#acdb65", count);
+			case 3:
+				return GetLerps("#404572", "#c85a7d", count);
+		}
+	}
 
-	function GetColor(percent, saturation, value) {
-		// Convert HSV to RGB
-		percent *= 5;
+	function GetLerps(color1, color2, count) {
+		const colors = [];
 
-		const c = value * saturation;
-		const x = c * (1 - Math.abs(percent % 2 - 1));
-		const m = value - c;
-		let r, g, b;
+		for (let i = 0; i < count; i++) {
+			const percent = i / count;
+			colors.push(LerpColor(color1, color2, percent));
+		}
 
-		if (percent >= 0 && percent < 1) { r = c; g = x; b = 0; }
-		else if (percent >= 1 && percent < 2) { r = x; g = c; b = 0; }
-		else if (percent >= 2 && percent < 3) { r = 0; g = c; b = x; }
-		else if (percent >= 3 && percent < 4) { r = 0; g = x; b = c; }
-		else if (percent >= 4 && percent < 5) { r = x; g = 0; b = c; }
-		else { r = c; g = 0; b = x; }
+		return colors;
+	}
 
-		// Convert RGB to Hex
-		r = Math.round((r + m) * 255).toString(16).padStart(2, '0');
-		g = Math.round((g + m) * 255).toString(16).padStart(2, '0');
-		b = Math.round((b + m) * 255).toString(16).padStart(2, '0');
+	function LerpColor(color1, color2, percent) {
+		const trueColor1 = HexToRgb(color1);
+		const trueColor2 = HexToRgb(color2);
 
-		return `#${r}${g}${b}`;
+		const r = LerpNumber(trueColor1.r, trueColor2.r, percent);
+		const g = LerpNumber(trueColor1.g, trueColor2.g, percent);
+		const b = LerpNumber(trueColor1.b, trueColor2.b, percent);
+
+		return RgbToHex(r, g, b);
+	}
+
+	function LerpNumber(min, max, percent) {
+		return min + (max - min) * percent;
+	}
+
+	function HexToRgb(hex) {
+		// Remove the hash if it's present
+		hex = hex.replace(/^#/, '');
+
+		// Parse the hex values
+		const r = parseInt(hex.slice(0, 2), 16) / 255;
+		const g = parseInt(hex.slice(2, 4), 16) / 255;
+		const b = parseInt(hex.slice(4, 6), 16) / 255;
+
+		return { r, g, b };
+	}
+
+	function RgbToHex(r, g, b) {
+		const toHex = (x) => {
+			const hex = Math.round(x * 255).toString(16);
+			return hex.length === 1 ? '0' + hex : hex;
+		};
+
+		return '#' + toHex(r) + toHex(g) + toHex(b);
+	}
+
+	function GetPageElements() {
+		let allElements = document.getElementsByTagName('*');
+
+		const elements = [];
+		const gamesData = [];
+
+		for (let element of allElements) {
+			if (element.hasAttribute(dataAtr)) {
+				const id = element.getAttribute(dataAtr);
+				elements.push(element);
+
+				const match = gamesData.find((value) => value.id == id);
+
+				if (match == null)
+					gamesData.push({ id: id, count: 1 });
+				else
+					match.count++;
+			}
+		}
+
+		return {
+			elements,
+			gamesData
+		};
 	}
 })();
