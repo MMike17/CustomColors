@@ -2,6 +2,7 @@
 (() => {
 	const saveKey = "scheme";
 	const dataAtr = "data-game_id";
+	const maxSceheme = 4;
 
 	// Invoked when we receive a message
 	chrome.runtime.onMessage.addListener((request, sender, response) => {
@@ -35,6 +36,13 @@
 					currentScheme = JSON.parse(obj[saveKey]);
 				else // save if we can't find any
 					SaveScheme(0);
+
+				console.log(currentScheme);
+
+				if (currentScheme >= maxSceheme)
+					currentScheme = maxSceheme - 1;
+
+				console.log(currentScheme);
 
 				onResult(currentScheme)
 			}

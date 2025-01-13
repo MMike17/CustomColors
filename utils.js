@@ -1,4 +1,4 @@
-export const maxSceheme = 5;
+export const maxSceheme = 4;
 const saveKey = "scheme";
 
 export function GetCurrentURL(onResult) {
@@ -22,6 +22,9 @@ export function GetCurrentScheme(onResult) {
 				currentScheme = JSON.parse(obj[saveKey]);
 			else // save if we can't find any
 				SaveScheme(0);
+
+			if (currentScheme >= maxSceheme)
+				currentScheme = maxSceheme - 1;
 
 			onResult(currentScheme)
 		}
