@@ -37,12 +37,8 @@
 				else // save if we can't find any
 					SaveScheme(0);
 
-				console.log(currentScheme);
-
 				if (currentScheme >= maxSceheme)
 					currentScheme = maxSceheme - 1;
-
-				console.log(currentScheme);
 
 				onResult(currentScheme)
 			}
