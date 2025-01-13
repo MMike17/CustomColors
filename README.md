@@ -1,6 +1,6 @@
 # itch.io custom dashboard colors
 
-A chrome plugin to replace dashboard colors on itch.io
+A chromium extension to replace dashboard colors on itch.io
 
 ![](https://img.shields.io/badge/Opera_GX-Supprted-green)
 ![](https://img.shields.io/badge/Chrome-Untested-yellow)
@@ -8,7 +8,7 @@ A chrome plugin to replace dashboard colors on itch.io
 
 ## Usage
 
-This plugin only works on the [itch.io/dashboard](https://itch.io/dashboard) and sub-pages.
+This plugin only works on [itch.io/dashboard](https://itch.io/dashboard) and sub-pages.
 
 When not on the mentioned page, the plugin will display the following message :
 
