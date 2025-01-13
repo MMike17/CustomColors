@@ -1,8 +1,8 @@
 {
 	"manifest_version": 3,
-	"name": "Custom Colors",
-	"version": "2.0",
-	"description": "A chrome plugin to replace certain colors on certain websites",
+	"name": "itch.io custom colors",
+	"version": "2.1",
+	"description": "A chromium extension to replace dashboard colors on itch.io",
 	"author": "Koro <matthews.r.mike@gmail.com>",
 	"permissions": [
 		"activeTab",
