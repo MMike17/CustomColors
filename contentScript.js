@@ -64,9 +64,9 @@
 			case 5:
 				return GetLerps("#562335", "#93c9ed", count);
 			case 6:
-				return GetLerps("#4a151e", "#fa2c2c", count);
+				return GetLerps("#5c1b26", "#fc3535", count);
 			case 7:
-				return GetLerps("#631a10", "#59e7d2", count);
+				return GetLerps("#711d12", "#59e7d2", count);
 		}
 	}
 
