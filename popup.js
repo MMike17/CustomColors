@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", DrawPopup());
 function DrawPopup() {
 	GetCurrentURL((url) => {
 		if (!url.includes("itch.io/dashboard")) {
-			DisplayInPopup("<div class='title'>Go to itch.io to manage your color schemes.</div>");
+			DisplayInPopup("<div class='title'>Go to itch.io/dahsboard to manage your color schemes.</div>");
 			return;
 		}
 
