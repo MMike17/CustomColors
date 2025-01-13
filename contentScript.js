@@ -2,7 +2,7 @@
 (() => {
 	const saveKey = "scheme";
 	const dataAtr = "data-game_id";
-	const maxSceheme = 4;
+	const maxSceheme = 8;
 
 	// Invoked when we receive a message
 	chrome.runtime.onMessage.addListener((request, sender, response) => {
@@ -59,6 +59,14 @@
 				return GetLerps("#2f413b", "#cbe84b", count);
 			case 3:
 				return GetLerps("#343f4f", "#ff5d8e", count);
+			case 4:
+				return GetLerps("#313131", "#efefef", count);
+			case 5:
+				return GetLerps("#562335", "#93c9ed", count);
+			case 6:
+				return GetLerps("#4a151e", "#fa2c2c", count);
+			case 7:
+				return GetLerps("#631a10", "#59e7d2", count);
 		}
 	}
 

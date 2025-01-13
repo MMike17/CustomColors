@@ -1,4 +1,4 @@
-export const maxSceheme = 4;
+export const maxSceheme = 8;
 const saveKey = "scheme";
 
 export function GetCurrentURL(onResult) {
@@ -47,6 +47,16 @@ export function GetScemeName(scheme) {
 			return "Forest";
 		case 3:
 			return "Skyfall";
+		case 4:
+			return "Retro";
+		case 5:
+			return "Alien";
+		case 6:
+			return "Dracula";
+		case 7:
+			return "Dragon";
+		// case :
+		// return "Test";
 	}
 }
 
@@ -60,6 +70,16 @@ export function GetScemeColors(scheme, count) {
 			return GetLerps("#2f413b", "#cbe84b", count);
 		case 3:
 			return GetLerps("#343f4f", "#ff5d8e", count);
+		case 4:
+			return GetLerps("#313131", "#efefef", count);
+		case 5:
+			return GetLerps("#562335", "#93c9ed", count);
+		case 6:
+			return GetLerps("#4a151e", "#fa2c2c", count);
+		case 7:
+			return GetLerps("#631a10", "#59e7d2", count);
+		// case :
+		// return GetLerps("#000000", "#ffffff", count); // base
 	}
 }
 
