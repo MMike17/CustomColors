@@ -16,13 +16,12 @@
 
 			const sortedGamesData = gamesData.sort((a, b) => a.count - b.count);
 
-			console.log(sortedGamesData);
-
 			for (let element of elements) {
 				const id = element.getAttribute(dataAtr);
 				const data = sortedGamesData.find(item => item.id == id);
-				const index = sortedGamesData.indexOf(data);
-				element.setAttribute("fill", colors[(sortedGamesData.length - 1) - index]);
+				let index = sortedGamesData.indexOf(data);
+				index = (sortedGamesData.length - 1) - index
+				element.setAttribute("fill", colors[index]);
 			}
 		});
 	};
@@ -45,13 +44,13 @@
 	function GetScemeColors(scheme, count) {
 		switch (scheme) {
 			case 0:
-				return GetLerps("#842222", "#eaca4b", count);
+				return GetLerps("#6b1d1d", "#f2d234", count);
 			case 1:
-				return GetLerps("#3c2d68", "#64d8e2", count);
+				return GetLerps("#483150", "#64e2ba", count);
 			case 2:
-				return GetLerps("#305f4a", "#acdb65", count);
+				return GetLerps("#2f413b", "#cbe84b", count);
 			case 3:
-				return GetLerps("#404572", "#c85a7d", count);
+				return GetLerps("#343f4f", "#ff5d8e", count);
 		}
 	}
 
