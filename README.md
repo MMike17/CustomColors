@@ -27,3 +27,8 @@ Open your browser's extension page and toggle "developer mode".\
 A button should appear to load extensions from local files.
 
 ⚠️ This method will only work with folders and not archives ⚠️
+
+## Known issues
+
+Sometimes when going in and out of a web page, the color scheme will not apply when changing selection.
+Simply reload the page and it should work correctly.
